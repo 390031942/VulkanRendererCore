@@ -1,0 +1,6 @@
+﻿  Reading Qt configuration (C:/Qt/5.14.2/msvc2017_64/bin/qmake)
+  GameObject.cpp
+  VulkanConfig.cpp
+  VulkanRenderer.cpp
+    正在创建库 F:\SourceCodes\C++\VulkanRenderer\x64\Debug\VulkanRendererCore.lib 和对象 F:\SourceCodes\C++\VulkanRenderer\x64\Debug\VulkanRendererCore.exp
+  VulkanRendererCore.vcxproj -> F:\SourceCodes\C++\VulkanRenderer\x64\Debug\VulkanRendererCore.dll
