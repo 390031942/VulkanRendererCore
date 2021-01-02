@@ -44,11 +44,11 @@ BasicShape::BasicShape(int vertexCount) :
 
 }
 
-void BasicShape::SetVertex2f(float x, float y)
+void BasicShape::setVertex2f(float x, float y)
 {
 	if (m_VertexCount <= 4 ? (m_VertexIndex == m_VertexCount) : (m_VertexIndex == m_VertexCount - 1))
 	{
-		CreateVertexData();
+		createVertexData();
 		return;
 	}
 
@@ -60,11 +60,11 @@ void BasicShape::SetVertex2f(float x, float y)
 	m_VertexIndex++;
 }
 
-void BasicShape::SetVertex3f(float x, float y, float z)
+void BasicShape::setVertex3f(float x, float y, float z)
 {
 	if (m_VertexCount <= 4 ? (m_VertexIndex == m_VertexCount) : (m_VertexIndex == m_VertexCount - 1))
 	{
-		CreateVertexData();
+		createVertexData();
 		return;
 	}
 
@@ -75,11 +75,11 @@ void BasicShape::SetVertex3f(float x, float y, float z)
 	m_VertexIndex++;
 }
 
-void BasicShape::SetColor3f(float r, float g, float b)
+void BasicShape::setColor3f(float r, float g, float b)
 {
 	if (m_VertexCount <= 4 ? (m_VertexIndex == m_VertexCount) : (m_VertexIndex == m_VertexCount - 1))
 	{
-		CreateVertexData();
+		createVertexData();
 		return;
 	}
 
@@ -89,11 +89,11 @@ void BasicShape::SetColor3f(float r, float g, float b)
 	m_VertexData[m_VertexIndex * ParamCount + 6] = 1.0f;
 }
 
-void BasicShape::SetColor4f(float r, float g, float b, float a)
+void BasicShape::setColor4f(float r, float g, float b, float a)
 {
 	if (m_VertexCount <= 4 ? (m_VertexIndex == m_VertexCount) : (m_VertexIndex == m_VertexCount - 1))
 	{
-		CreateVertexData();
+		createVertexData();
 		return;
 	}
 
@@ -103,11 +103,11 @@ void BasicShape::SetColor4f(float r, float g, float b, float a)
 	m_VertexData[m_VertexIndex * ParamCount + 6] = a;
 }
 
-void BasicShape::CreateVertexData()
+void BasicShape::createVertexData()
 {
 	if (m_VertexCount >= 6)
 	{
-		float avgX, avgY, avgZ, avgR, avgG, avgB, avgA;
+		float avgX=0, avgY=0, avgZ=0, avgR=0, avgG=0, avgB=0, avgA=0;
 		for (int i = 0; i < m_VertexCount - 1; i++)
 		{
 			avgX += (m_VertexData[m_VertexIndex * ParamCount + 0]) / m_VertexCount;
@@ -176,15 +176,15 @@ void BasicShape::CreateVertexData()
 	m_IsValid = true;
 }
 
-void BasicShape::Draw()
+void BasicShape::render()
 {
-	if (!m_IsValid)
-		return;
+	if (!m_IsValid) return; 
+
 	VkDeviceSize vbOffset = 0;
 
-	PipelineResource* pipelineResource = vkPipelineMap[GetRTTI()];
+	/*PipelineResource* pipelineResource = vkPipelineMap[GetRTTI()];
 	vkCmdBindPipeline(Asset.vkCmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineResource->pipeline);
 	vkCmdBindVertexBuffers(Asset.vkCmdBuffer, 0, 1, &m_vkVertexBuffer, &vbOffset);
 	vkCmdBindIndexBuffer(Asset.vkCmdBuffer, m_vkVertexBuffer, m_VertexSize, VK_INDEX_TYPE_UINT16);
-	vkCmdDrawIndexed(Asset.vkCmdBuffer, m_Indices.size(), 1, 0, 0, 0);
+	vkCmdDrawIndexed(Asset.vkCmdBuffer, m_Indices.size(), 1, 0, 0, 0);*/
 }

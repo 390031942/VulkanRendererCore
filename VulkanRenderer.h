@@ -4,12 +4,10 @@
 #include "AbstractRenderer.h"
 #include "Component.h"
 #include "GameObject.h"
-#include "VulkanConfig.h"
 #include "ShaderCompiler.h"
 
 #include <vector>
 #include <QMessageBox>
-#include <vulkan/vulkan_win32.h>
 
 using namespace std;
 
@@ -685,7 +683,7 @@ private:
 		//为帧缓冲序列动态分配内存
 		VkFramebuffer* vkFrameBuffers = new VkFramebuffer[Asset.swapchainImageCount];
 
-		VkAssert(vkFrameBuffers != NULL, "AllocateFrameBuffers");//检查内存分配是否成功
+		VkAssert(vkFrameBuffers != NULL);//检查内存分配是否成功
 		//遍历交换链中的各个图像
 		for (i = 0; i < Asset.swapchainImageCount; i++)
 		{

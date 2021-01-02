@@ -18,13 +18,12 @@ protected:
 	VkDeviceSize                 m_VertexSize;
 
 public:
-	void   SetVertex2f(float x, float y);
-	void   SetVertex3f(float x, float y, float z);
-	void   SetColor3f(float r, float g, float b);
-	void   SetColor4f(float r, float g, float b, float a);
+	void   setVertex2f(float x, float y);
+	void   setVertex3f(float x, float y, float z);
+	void   setColor3f(float r, float g, float b);
+	void   setColor4f(float r, float g, float b, float a);
 
-	void   CreateVertexData();
-	void   Draw();
-
+	void   createVertexData();
+	void   render();
 };
 

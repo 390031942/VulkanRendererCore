@@ -13,13 +13,32 @@
 
 #endif
 
+// libs
 #pragma comment(lib,"vulkan-1.lib")
-#include <qmessagebox.h>
+#pragma comment(lib,"shaderc_combined.lib")
+#pragma comment(lib,"VkLayer_utils.lib")
+
+// Windows Includes
+#include <Windows.h>
+
+// Qt Includes
+#include <QMessageBox>
 #include <QFileInfo>
+#include <QString>
+#include <QFile>
+
+// Vulkan Includes
+#include <vulkan/vulkan.h>
 #include <vulkan/vulkan_win32.h>
-#include <vulkan/vulkan_core.h>
+//#include <vulkan/vulkan_core.h>
+
+// STD Includes
 #include <vector>
 #include "VulkanConfig.h"
+
+// SPRIV Includes
+#include "SPIRV/GlslangToSpv.h"
+
 using namespace std;
 #define VkAssertTitle QString("Vulkan Fatal Error!")
 #define VkQuitCode    -2181

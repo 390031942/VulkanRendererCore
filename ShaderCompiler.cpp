@@ -203,7 +203,7 @@ VkShaderModule ShaderCompiler::compile(QString path, VkShaderStageFlagBits shade
 	return module;
 }
 
-ShaderCompiler::ShaderCompiler(VulkanAsset* pAsset) :vkAsset(pAsset)
+ShaderCompiler::ShaderCompiler()
 {
 	glslang::InitializeProcess();
 }
