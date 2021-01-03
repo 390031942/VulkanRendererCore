@@ -1,0 +1,2 @@
+C:\Users\Timor\source\repos\VulkanRendererCore\x64\Debug\VulkanRendererCore.dll
+C:\Users\Timor\source\repos\VulkanRendererCore\x64\Debug\VulkanRendererCore.pdb

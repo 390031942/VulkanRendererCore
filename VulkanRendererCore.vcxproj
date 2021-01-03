@@ -69,7 +69,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PreprocessorDefinitions>VULKANRENDERERCORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -97,6 +97,7 @@
     <ClInclude Include="AbstractRenderer.h" />
     <ClInclude Include="BasicShape.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="Debugger.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="ShaderCompiler.h" />
     <ClInclude Include="VulkanConfig.h" />
@@ -104,6 +105,7 @@
     <ClInclude Include="VulkanRenderer.h" />
     <ClCompile Include="AbstractPipeline.cpp" />
     <ClCompile Include="BasicShape.cpp" />
+    <ClCompile Include="Debugger.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="ShaderCompiler.cpp" />
     <ClCompile Include="VulkanConfig.cpp" />

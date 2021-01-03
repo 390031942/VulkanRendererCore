@@ -6,11 +6,15 @@ BasicDrawPipeline::BasicDrawPipeline()
 
 	m_createInfo = new PipelineInfo;
 	// Vertex Format
+	m_createInfo->addVertexInput(VK_FORMAT_R8G8B8_UNORM);
 	m_createInfo->addVertexInput(VK_FORMAT_R8G8B8A8_UNORM);
 
 	// Shader Setting
 	m_createInfo->setVertexShader("shaders/build_in_basic.vert");
 	m_createInfo->setFragmentShader("shaders/build_in_basic.frag");
+
+	// shader layout binding
+	m_createInfo->addDescriptorLayoutBinding(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_FRAGMENT_BIT);
 
 	// Uniform Buffer Format
 	// m_createInfo->setUniformBytesCount(0, 4);
@@ -34,6 +38,7 @@ BasicDrawPipeline::BasicDrawPipeline()
 
 	// line Width
 	m_createInfo->setLineWidth(1);
+
 
 	VkAssert(this->create());
 }

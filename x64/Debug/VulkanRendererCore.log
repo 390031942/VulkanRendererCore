@@ -1,9 +1,14 @@
-﻿  AbstractPipeline.cpp
+﻿  Reading Qt configuration (D:/Software/Qt/5.14.2/msvc2017_64/bin/qmake)
+  AbstractPipeline.cpp
+  BasicShape.cpp
+  GameObject.cpp
   ShaderCompiler.cpp
+  VulkanConfig.cpp
   VulkanRenderer.cpp
-D:\SourceCode\VulkanRendererCore\AbstractPipeline.cpp(92,37): error C2065: “VK_DYNAMIC_STATE_RANGE_SIZE”: 未声明的标识符
-D:\SourceCode\VulkanRendererCore\VulkanRenderer.h(297,1): warning C4806: “==”: 不安全操作: 从类型“bool”提升到类型“unsigned int”的值不能等于给定的常量 (编译源文件 VulkanRenderer.cpp)
-D:\SourceCode\VulkanRendererCore\VulkanRenderer.h(402,1): warning C4819: 该文件包含不能在当前代码页(0)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 VulkanRenderer.cpp)
-D:\SourceCode\VulkanRendererCore\VulkanRenderer.h(464,1): warning C4819: 该文件包含不能在当前代码页(0)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 VulkanRenderer.cpp)
-D:\SourceCode\VulkanRendererCore\VulkanRenderer.h(654,1): warning C4819: 该文件包含不能在当前代码页(0)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 VulkanRenderer.cpp)
-D:\SourceCode\VulkanRendererCore\VulkanRenderer.h(692,1): warning C4819: 该文件包含不能在当前代码页(0)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 VulkanRenderer.cpp)
+C:\Users\Timor\source\repos\VulkanRendererCore\VulkanRenderer.h(297,1): warning C4806: “==”: 不安全操作: 从类型“bool”提升到类型“unsigned int”的值不能等于给定的常量 (编译源文件 VulkanRenderer.cpp)
+C:\Users\Timor\source\repos\VulkanRendererCore\VulkanRenderer.h(402,1): warning C4819: 该文件包含不能在当前代码页(0)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 VulkanRenderer.cpp)
+C:\Users\Timor\source\repos\VulkanRendererCore\VulkanRenderer.h(464,1): warning C4819: 该文件包含不能在当前代码页(0)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 VulkanRenderer.cpp)
+C:\Users\Timor\source\repos\VulkanRendererCore\VulkanRenderer.h(654,1): warning C4819: 该文件包含不能在当前代码页(0)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 VulkanRenderer.cpp)
+C:\Users\Timor\source\repos\VulkanRendererCore\VulkanRenderer.h(692,1): warning C4819: 该文件包含不能在当前代码页(0)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 VulkanRenderer.cpp)
+    正在创建库 C:\Users\Timor\source\repos\VulkanRendererCore\x64\Debug\VulkanRendererCore.lib 和对象 C:\Users\Timor\source\repos\VulkanRendererCore\x64\Debug\VulkanRendererCore.exp
+  VulkanRendererCore.vcxproj -> C:\Users\Timor\source\repos\VulkanRendererCore\x64\Debug\VulkanRendererCore.dll

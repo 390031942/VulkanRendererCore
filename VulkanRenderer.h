@@ -664,7 +664,7 @@ private:
 	}
 
 	//创建帧缓冲
-	void doFrameBufferCreationf()
+	void doFrameBufferCreation()
 	{
 		VkImageView attachments[2];//附件图像视图数组
 		attachments[1] = Asset.depthImageView;//给定深度图像视图
@@ -681,14 +681,14 @@ private:
 
 		uint32_t i;//循环控制变量
 		//为帧缓冲序列动态分配内存
-		VkFramebuffer* vkFrameBuffers = new VkFramebuffer[Asset.swapchainImageCount];
+		Asset.vkFrameBuffers = new VkFramebuffer[Asset.swapchainImageCount];
 
-		VkAssert(vkFrameBuffers != NULL);//检查内存分配是否成功
+		VkAssert(Asset.vkFrameBuffers != NULL);//检查内存分配是否成功
 		//遍历交换链中的各个图像
 		for (i = 0; i < Asset.swapchainImageCount; i++)
 		{
 			attachments[0] = Asset.swapchainImageViews[i];//给定颜色附件对应图像视图
-			VkAssert(vkCreateFramebuffer(Asset.vkDevice, &fb_info, NULL, &vkFrameBuffers[i]) == VK_SUCCESS);//检查是否创建成功
+			VkAssert(vkCreateFramebuffer(Asset.vkDevice, &fb_info, NULL, &Asset.vkFrameBuffers[i]) == VK_SUCCESS);//检查是否创建成功
 			printf("[创建帧缓冲%d 成功！]\n", i);
 		}
 	}
@@ -700,6 +700,100 @@ private:
 		fenceInfo.pNext = NULL;//自定义数据的指针
 		fenceInfo.flags = 0;//供将来使用的标志位
 		vkCreateFence(Asset.vkDevice, &fenceInfo, NULL, &Asset.renderTaskFinishedFence);//创建时栅栏
+	}
+
+	void doFrameUpdate()
+	{
+		uint32_t swapChainIndex = -1;
+		//获取交换链中的当前帧索引
+		VkResult result = vkAcquireNextImageKHR(Asset.vkDevice, Asset.vkSwapChain, UINT64_MAX, Asset.semaphore, VK_NULL_HANDLE, &swapChainIndex);
+
+		//创建清除信息
+		VkClearValue clearValue[2];
+		clearValue[0].color.float32[0] = 0.3f;//帧缓冲清除用R分量值
+		clearValue[0].color.float32[1] = 0.3f;//帧缓冲清除用G分量值
+		clearValue[0].color.float32[2] = 0.3f;//帧缓冲清除用B分量值
+		clearValue[0].color.float32[3] = 0.3f;//帧缓冲清除用A分量值
+		clearValue[1].depthStencil.depth = 1.0f;//帧缓冲清除用深度值
+		clearValue[1].depthStencil.stencil = 0;//帧缓冲清除用模板值
+
+		//创建渲染通道开始信息
+		VkRenderPassBeginInfo vkRenderPassBeginInfo = {};
+		vkRenderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;//渲染通道启动信息结构体类型
+		vkRenderPassBeginInfo.pNext = NULL;//自定义数据的指针
+		vkRenderPassBeginInfo.renderPass = Asset.renderPass;//指定要启动的渲染通道
+		vkRenderPassBeginInfo.renderArea.offset.x = 0;//渲染区域起始X坐标
+		vkRenderPassBeginInfo.renderArea.offset.y = 0;//渲染区域起始Y坐标
+		vkRenderPassBeginInfo.renderArea.extent.width = Asset.screenWidth;//渲染区域宽度
+		vkRenderPassBeginInfo.renderArea.extent.height = Asset.screenHeight;//渲染区域高度
+		vkRenderPassBeginInfo.clearValueCount = 2;//帧缓冲清除值数量
+		vkRenderPassBeginInfo.pClearValues = Asset.clearValue;//帧缓冲清除值数组
+		vkRenderPassBeginInfo.framebuffer = Asset.vkFrameBuffers[swapChainIndex];
+
+		//为渲染通道设置当前帧缓冲
+		vkResetCommandBuffer(Asset.vkCmdBuffer, 0);//恢复命令缓冲到初始状态
+
+		//创建命令缓冲开始信息
+		VkCommandBufferBeginInfo vkCmdBufferInfo;
+		vkCmdBufferInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;//给定结构体类型
+		vkCmdBufferInfo.pNext = NULL;//自定义数据的指针
+		vkCmdBufferInfo.flags = 0;//描述使用标志
+		vkCmdBufferInfo.pInheritanceInfo = NULL;//命令缓冲继承信息
+
+		//创建队列提交信息
+		VkPipelineStageFlags flags[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
+		VkSubmitInfo vkSubmitInfo;
+		vkSubmitInfo.pNext = NULL;//自定义数据的指针
+		vkSubmitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;//给定结构体类型
+		vkSubmitInfo.pWaitDstStageMask = flags;//给定目标管线阶段
+		vkSubmitInfo.commandBufferCount = 1;//命令缓冲数量
+		vkSubmitInfo.pCommandBuffers = &Asset.vkCmdBuffer;//提交的命令缓冲数组
+		vkSubmitInfo.signalSemaphoreCount = 0;//信号量数量
+		vkSubmitInfo.pSignalSemaphores = NULL;//信号量数组
+		vkSubmitInfo.waitSemaphoreCount = 1;//等待的信号量数量
+		vkSubmitInfo.pWaitSemaphores = &Asset.semaphore;//等待的信号量列表
+
+		//创建呈现信息
+		VkPresentInfoKHR vkPresentInfo;
+		vkPresentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;	//结构体类型
+		vkPresentInfo.pNext = NULL;//自定义数据的指针
+		vkPresentInfo.swapchainCount = 1;//交换链的数量
+		vkPresentInfo.pSwapchains = &Asset.vkSwapChain;//交换链列表
+		vkPresentInfo.waitSemaphoreCount = 0;//等待的信号量数量
+		vkPresentInfo.pWaitSemaphores = NULL;//等待的信号量列表
+		vkPresentInfo.pResults = NULL;//呈现操作结果标志列表
+		vkPresentInfo.pImageIndices = &swapChainIndex;//指定此次呈现的交换链图像索引
+
+
+		//启动命令缓冲
+		result = vkBeginCommandBuffer(Asset.vkCmdBuffer, &vkCmdBufferInfo);
+		//启动渲染通道
+		vkCmdBeginRenderPass(Asset.vkCmdBuffer, &vkRenderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);	
+
+		// Draw Calls ：vkCmdDraw,vkCmdDrawIndexed,vkCmdDrawIndexedIndirect...
+
+		//结束渲染通道
+		vkCmdEndRenderPass(Asset.vkCmdBuffer);
+		//结束命令缓冲
+		result = vkEndCommandBuffer(Asset.vkCmdBuffer);
+
+		VkFence vkTaskFinishFence;
+		//提交命令缓冲
+		result = vkQueueSubmit(Asset.vkQueue, 1, &vkSubmitInfo, vkTaskFinishFence);
+		do {	
+			//等待渲染完毕
+			result = vkWaitForFences(Asset.vkDevice, 1, &vkTaskFinishFence, VK_TRUE, 0x1000);
+		} while (result == VK_TIMEOUT);
+
+		//重置栅栏
+		vkResetFences(Asset.vkDevice, 1, &vkTaskFinishFence);
+		//执行呈现，将帧缓冲的像素内容呈现到窗口中
+		result = vkQueuePresentKHR(Asset.vkQueue, &vkPresentInfo);
+	}
+
+	void doInitQueue()
+	{
+		vkGetDeviceQueue(Asset.vkDevice, Asset.gpuQueueGraphicsFamilyIndex, 0, &Asset.vkQueue);
 	}
 public:
     bool startUp()

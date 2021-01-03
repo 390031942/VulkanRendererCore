@@ -1,18 +1,5 @@
 #pragma once
 
-#include <QtCore/qglobal.h>
-
-#ifndef BUILD_STATIC
-# if defined(VULKANRENDERERCORE_LIB)
-#  define VULKANRENDERERCORE_EXPORT Q_DECL_EXPORT
-# else
-#  define VULKANRENDERERCORE_EXPORT Q_DECL_IMPORT
-# endif
-#else
-# define VULKANRENDERERCORE_EXPORT
-
-#endif
-
 // libs
 #pragma comment(lib,"vulkan-1.lib")
 #pragma comment(lib,"shaderc_combined.lib")
@@ -22,6 +9,7 @@
 #include <Windows.h>
 
 // Qt Includes
+#include <QtCore/qglobal.h>
 #include <QMessageBox>
 #include <QFileInfo>
 #include <QString>
@@ -40,8 +28,20 @@
 #include "SPIRV/GlslangToSpv.h"
 
 using namespace std;
-#define VkAssertTitle QString("Vulkan Fatal Error!")
-#define VkQuitCode    -2181
+
+#ifndef BUILD_STATIC
+# if defined(VULKANRENDERERCORE_LIB)
+#  define VULKANRENDERERCORE_EXPORT Q_DECL_EXPORT
+# else
+#  define VULKANRENDERERCORE_EXPORT Q_DECL_IMPORT
+# endif
+#else
+# define VULKANRENDERERCORE_EXPORT
+
+#endif
+
+#define VkAssertTitle "Vulkan Fatal Error!"
+#define VkQuitCode    -0x00001
 
 #define VK_ASSERT_ENABLE
 #ifdef  VK_ASSERT_ENABLE
@@ -88,6 +88,10 @@ struct VulkanAsset
 	vector<VkImage> swapchainImages;
 	vector<VkImageView> swapchainImageViews;
 
+	/******** Frame Buffer Creation stage ********/
+
+	VkFramebuffer* vkFrameBuffers;
+
 	/******** Depth Buffer Creation stage ********/
 	VkImage depthImage = VK_NULL_HANDLE;
 	VkImageView depthImageView = VK_NULL_HANDLE;
@@ -101,6 +105,9 @@ struct VulkanAsset
 
 	/******** Fence Creation stage ********/
 	VkFence renderTaskFinishedFence;
+
+	/******** Queue Creation stage ********/
+	VkQueue vkQueue;
 };
 
 static VulkanAsset Asset;

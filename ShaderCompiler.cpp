@@ -198,7 +198,7 @@ VkShaderModule ShaderCompiler::compile(QString path, VkShaderStageFlagBits shade
 		shaderCreateInfo.codeSize = shaderProgramBytes.size() * sizeof(unsigned int);  // 顶点着色器SPV数据总字节数
 		shaderCreateInfo.pCode = shaderProgramBytes.data();                         // 顶点着色器SPV数据
 
-		VkAssert(vkCreateShaderModule(vkAsset->vkDevice, &shaderCreateInfo, NULL, &module) == VK_SUCCESS);
+		VkAssert(vkCreateShaderModule(Asset.vkDevice, &shaderCreateInfo, NULL, &module) == VK_SUCCESS);
 	}
 	return module;
 }
